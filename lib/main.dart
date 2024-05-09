@@ -1,5 +1,6 @@
+// main.dart
 import 'package:flutter/material.dart';
-import 'routes.dart'; //Importa archivo de rutas
+import 'routes.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Navegación con Rutas Nombradas',
+      title: 'Navegación con Argumentos',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -19,7 +20,14 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class PrimeraPantalla extends StatelessWidget {
+class PrimeraPantalla extends StatefulWidget {
+  @override
+  _PrimeraPantallaState createState() => _PrimeraPantallaState();
+}
+
+class _PrimeraPantallaState extends State<PrimeraPantalla> {
+  final TextEditingController _textController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,13 +35,26 @@ class PrimeraPantalla extends StatelessWidget {
         title: Text('Página principal'),
       ),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.pushNamed(
-              context,
-              Routes.segundaPantalla);
-          },
-          child: Text('Ir a la segunda página'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: _textController,
+              decoration: InputDecoration(
+                hintText: 'Ingresa un texto',
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  Routes.segundaPantalla,
+                  arguments: _textController.text,
+                );
+              },
+              child: Text('Ir a la segunda página'),
+            ),
+          ],
         ),
       ),
     );
@@ -43,16 +64,25 @@ class PrimeraPantalla extends StatelessWidget {
 class SegundaPantalla extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final String argumento =
+        ModalRoute.of(context)!.settings.arguments as String;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Página 2'),
       ),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('Volver a la página principal'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Texto recibido: $argumento'),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Volver a la página principal'),
+            ),
+          ],
         ),
       ),
     );
