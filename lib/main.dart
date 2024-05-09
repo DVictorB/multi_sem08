@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'routes.dart'; //Importa archivo de rutas
 
 void main() {
   runApp(MyApp());
@@ -8,16 +9,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Navegación Simple',
+      title: 'Navegación con Rutas Nombradas',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: FirstScreen(),
+      initialRoute: Routes.primeraPantalla,
+      routes: Routes.routes,
     );
   }
 }
 
-class FirstScreen extends StatelessWidget {
+class PrimeraPantalla extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,19 +29,18 @@ class FirstScreen extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            Navigator.push(
+            Navigator.pushNamed(
               context,
-              MaterialPageRoute(builder: (context) => SecondScreen()),
-            );
+              Routes.segundaPantalla);
           },
-          child: Text('Ir a la segunda pantalla'),
+          child: Text('Ir a la segunda página'),
         ),
       ),
     );
   }
 }
 
-class SecondScreen extends StatelessWidget {
+class SegundaPantalla extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
